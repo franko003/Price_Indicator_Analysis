@@ -56,10 +56,5 @@ def main():
     df_dict = generate_df_dict(products, api_key)
     insert_daily_prices_table(products, df_dict, sqlite_file)
 
-
-# Individual lists of products from Cryptocompare and Quandl
-#cc_products = [p for p in products.keys() if (products[p][0] == 1)]
-#quandl_products = [p for p in products.keys() if (products[p][0] == 2)]
-
 if __name__ == '__main__':
     main()
