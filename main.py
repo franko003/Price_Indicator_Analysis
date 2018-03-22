@@ -31,8 +31,7 @@ products = {'CL': [2, 'Crude', 'Energy', 'CME'],
             'NEO': [1, 'Neo', 'Cryptocurrency', 'CCAgg'],
             'XLM': [1, 'Stellar', 'Cryptocurrency', 'CCAgg'],
             'EOS': [1, 'EOS', 'Cryptocurrency', 'CCAgg'],
-            'XMR': [1, 'Monero', 'Cryptocurrency', 'CCAgg'],
-            }
+            'XMR': [1, 'Monero', 'Cryptocurrency', 'CCAgg'],}
 
 # Individual lists of products from Cryptocompare and Quandl
 cc_products = [p for p in products.keys() if (products[p][0] == 1)]

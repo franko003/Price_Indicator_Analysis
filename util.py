@@ -83,7 +83,7 @@ def create_df_quandl(symbol, api_key):
                       'Volume': 'volume'}, inplace=True)
     return df
 
-def generate_df_dict(product_dict, api_key):
+def generate_df_dict(product_dict, api_key=None):
     ''' This function takes in a dict of product symbols mapped to
         information about the product  and a Quandl API key and returns
         a dict object with the symbols as keys and a dataframe of price
@@ -110,61 +110,54 @@ def generate_df_dict(product_dict, api_key):
 
     return df_dict
 
-################################################################################
+def insert_symbols_table(product_dict, sqlite_file, table_name='Symbols'):
+    ''' This function takes in a dict of product symbols mapped to
+        information about the product.  It also takes in a sqlite file and then
+        uses the info to insert all symbols in the dict into the Symbols
+        table of the database.
 
-# Insert all symbols for Quandl data into Symbols table
-def insert_symbols_table(sector_map, name_map, sqlite_file):
-    ''' This function takes in two dicts, one mapping sectors to specific futres contracts,
-        the other mapping symbols to full names.  It also takes in a sqlite file and then
-        uses the info to insert all rows into the Symbols table of the database
-
-        Args: sector_map - dict that maps breaks all futures into sectors
-              name_map - dict that maps symbols to full names of the products
+        Args: product_dict - a dict of symbols for products with maps to
+                             a list of info
               sqlite_file - file for the database to write to
+              table_name - default to 'Symbols' for this function
 
         Return: None - nothing explicit but inserts info into the database
     '''
-    # Since this is specifc Quandl data all from CME exchange we can set these two params
-    data_id = 2
-    exchange = 'CME'
-
     # Create the column name list for database insertion
-    table_name = 'Symbols'
     cols = ['data_id', 'symbol', 'name', 'sector', 'exchange']
 
     # Open a connection to the database
     conn = sqlite3.connect(sqlite_file)
     c = conn.cursor()
 
-    # Iterate through all symbols to get sector and name
-    for sector, s_list in sectors.items():
-        for symbol in s_list:
-            # Set params and insert row into database
-            params = (data_id, symbol, name_map[symbol], sector, exchange)
-            c.execute("INSERT INTO {tn} ({c0}, {c1}, {c2}, {c3}, {c4}) VALUES (?, ?, ?, ?, ?)"\
-                      .format(tn=table_name, c0=cols[0], c1=cols[1], c2=cols[2],\
-                             c3=cols[3], c4=cols[4]), params)
+    # Iterate through all symbols of product_dict
+    for symbol, s_info in product_dict.items():
+        # Set params and insert row into database
+        params = (s_info[0], symbol, s_info[1], s_info[2], s_info[3])
+        c.execute("INSERT INTO {tn} ({c0}, {c1}, {c2}, {c3}, {c4}) VALUES (?, ?, ?, ?, ?)"\
+            .format(tn=table_name, c0=cols[0], c1=cols[1], c2=cols[2],\
+            c3=cols[3], c4=cols[4]), params)
 
     # Close connection to database
     conn.commit()
     conn.close()
 
-# Insert all price data into Daily_Prices database
-def insert_daily_prices_table(df_dict, sqlite_file):
-    ''' This function takes in a dict of dataframes, with each key being a different futures
-        contract, and the value is the price data.  It also takes in a sqlite file and then
-        uses the info to insert all rows into the Daily_Prices table of the database
+def insert_daily_prices_table(product_dict, df_dict, sqlite_file, table_name='Daily_Prices'):
+    ''' This function takes in a 2 dicts, one with product keys mapping
+        to info about the product and the other with product keys mapping
+        to a dataframe a daily price information.  It also takes in a sqlite
+        file and then uses the info to insert all rows into the Daily_Prices
+        table of the database.
 
-        Args: df_dict - dict of dataframes with futures symbols and price data
+        Args: product_dict - a dict of symbols for products with maps to
+                             a list of info
+              df_dict - dict of dataframes with futures symbols and price data
               sqlite_file - file for the database to write to
+              table_name - default to 'Daily_Prices' for this function
 
         Return: None - nothing explicit but inserts info into the database
     '''
-    # Since this is specifc Quandl data we can set data_id param
-    data_id = 2
-
     # Create the column name list for database insertion
-    table_name = 'Daily_Prices'
     cols = ['data_id', 'symbol', 'date', 'open', 'high', 'low', 'close', 'volume']
 
     # Open a connection to the database
@@ -173,11 +166,14 @@ def insert_daily_prices_table(df_dict, sqlite_file):
 
     # Iterate through all symbols and then the dataframe to get all price data
     for symbol, df in df_dict.items():
+        data_id = product_dict[symbol][0]
         for i, row in df.iterrows():
             date = i.strftime('%Y-%m-%d')
             # Set params and insert row into database
             params = (data_id, symbol, date, row.open, row.high, row.low, row.close, row.volume)
-            c.execute("INSERT INTO {tn} ({c0}, {c1}, {c2}, {c3}, {c4}, {c5}, {c6}, {c7}) VALUES (?, ?, ?, ?, ?, ?, ?, ?)".format(tn=table_name, c0=cols[0], c1=cols[1], c2=cols[2], c3=cols[3], c4=cols[4], c5=cols[5], c6=cols[6], c7=cols[7]), params)
+            c.execute("INSERT INTO {tn} ({c0}, {c1}, {c2}, {c3}, {c4}, {c5}, {c6}, {c7}) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"\
+                .format(tn=table_name, c0=cols[0], c1=cols[1], c2=cols[2], c3=cols[3], c4=cols[4],\
+                c5=cols[5], c6=cols[6], c7=cols[7]), params)
 
     # Close connection to database
     conn.commit()
