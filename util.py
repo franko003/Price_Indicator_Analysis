@@ -1,11 +1,20 @@
+#!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+
+""" This module contains all the functions used in the main.py file.  It takes in a
+    list of products and creates dataframes of each, with the name as the key and daily
+    price information as the value.  These functions also put the data into clean
+    format in order to then insert both the product symbols and the price data into
+    a SQLite3 database.
+"""
+
 import requests
 import pandas as pd
 import numpy as np
 import json
 import datetime
 import quandl
-
-# All functions used in creating and populating master database
+import sqlite3
 
 def connect(sqlite_file):
     ''' This function takes in a sqlite db files, returns a connection
