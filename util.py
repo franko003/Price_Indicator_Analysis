@@ -11,6 +11,7 @@
 import requests
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import json
 import datetime
 import quandl
@@ -40,7 +41,7 @@ def close(conn):
     conn.commit()
     conn.close()
 
-def create_df_crypto(symbol, curr='USD', limit=2500):
+def create_df_crypto(symbol, curr='USD', limit=2000):
     ''' This function takes in a symbol of a cryptocurrency to be
         used with the Cryptocompare API, and returns a formatted dataframe
         for later processing.
@@ -92,6 +93,53 @@ def create_df_quandl(symbol, api_key):
                       'Volume': 'volume'}, inplace=True)
     return df
 
+def clean_df_crypto(df, volume_thresh=1000000):
+    ''' This function takes in a dataframe and a volume threshold and returns a filtered
+        dataframe from the first data point that achieves the threshold.  This is written
+        to be used specifically with the cryptocurrency dataframes.
+
+        Args: df - dataframe to be filtered on volume
+              volume_thresh - min volume to reach before using data in the dataframe
+
+        Return df - the filtered dataframe with only points after the volume threshold is hit
+    '''
+    # Find start_date and filter df
+    start_date = df.index[df.volume > volume_thresh].tolist()[0]
+    df = df[start_date:]
+
+    return df
+
+def check_outliers(df):
+    ''' This function finds all closing price points that are more than 3 stds away from
+        the mean and plots them on a line graph of all the data.  This can be used to see
+        if these points are truly outliers.
+
+        Args: df - dataframe to be checked for outliers
+
+        Return: None - shows a graph of the price data series with annotations for outliers
+    '''
+    # Create range of values that are more than 3 stds away from mean
+    df['stds_from_mean'] = ((df['close'] - df['close'].mean()).apply(abs)) / df['close'].std()
+    locs_gt_3std = [df.index.get_loc(x) for x in df.index[df['stds_from_mean'] > 3.0]]
+
+    # Plot the price data, highlighting the outliers
+    plt.figure(figsize=(15,10))
+    plt.plot(df.index, df.close, linestyle='solid', markevery=locs_gt_3std,
+                marker='o', markerfacecolor='r', label='Outliers')
+
+    # Apply title, legend and labels
+    plt.title('Closing Prices')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.legend()
+    plt.grid()
+
+    plt.show()
+
+    # Print out description
+    print('Number of data points: {}'.format(len(df.index)))
+    print('Number of outliers: {}'.format(len(locs_gt_3std)))
+
 def generate_df_dict(product_dict, api_key=None):
     ''' This function takes in a dict of product symbols mapped to
         information about the product  and a Quandl API key and returns
@@ -112,6 +160,7 @@ def generate_df_dict(product_dict, api_key=None):
         # Determine what dataframe creator to use
         if info[0] == 1:
             df = create_df_crypto(product)
+            df = clean_df_crypto(df)
         if info[0] == 2:
             df = create_df_quandl(product, api_key)
 
