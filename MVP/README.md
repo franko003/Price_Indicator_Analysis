@@ -13,40 +13,40 @@ In order to get data from more traditional products and newer assets, I will be 
 From Quandl, I want to look at data from highly traded products across different asset classes.  My breakdown follows...
 
   * **Grains**
-   * Corn
-   * Wheat
-   * Soybeans
+       * Corn
+       * Wheat
+       * Soybeans
   * **Energy**
-   * Crude Oil
-   * Heating Oil
-   * Natural Gas
+       * Crude Oil
+       * Heating Oil
+       * Natural Gas
   * **Forex**
-   * Australian Dollar
-   * Canadien Dollar
-   * Euro
-   * Japanese Yen
-   * British Pound
+       * Australian Dollar
+       * Canadien Dollar
+       * Euro
+       * Japanese Yen
+       * British Pound
   * **Treasuries**
-   * 30-yr Bond
+       * 30-yr Bond
   * **Metals**
-   * Gold
-   * Silver
+       * Gold
+       * Silver
   * **Index**
-   * E-mini S&P 500
+       * E-mini S&P 500
 
 Then in order to incorporate a newer asset class like cryptocurrencies I will use the Cryptocompare API.  I will look at the following 10 for this project, based on them being the current top 10 as far as market cap.
 
   * **Cryptocurrencies**
-   * Bitcoin
-   * Ethereum
-   * Ripple
-   * BitcoinCash
-   * Litecoin
-   * Cardano
-   * Neo
-   * Stellar
-   * EOS
-   * Monero
+       * Bitcoin
+       * Ethereum
+       * Ripple
+       * BitcoinCash
+       * Litecoin
+       * Cardano
+       * Neo
+       * Stellar
+       * EOS
+       * Monero
 
 Here is the schema for the SQL database for storing the data locally.
 
