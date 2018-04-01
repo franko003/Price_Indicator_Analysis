@@ -48,9 +48,14 @@ Then in order to incorporate a newer asset class like cryptocurrencies I will us
    * EOS
    * Monero
 
+Here is the schema for the SQL database for storing the data locally.
+
+**Data**     ---------->    **Symbols**     ------------->  **Daily_Prices**
+
+
 ## Data Cleaning
 
-After examining the initial data I found there are a few different key areas of focus as far as cleaning the data.  Some specific to 
+After examining the initial data I found there are a few different key areas of focus as far as cleaning the data.  Some specific to
 
 
 
