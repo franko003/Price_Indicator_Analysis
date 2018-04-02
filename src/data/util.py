@@ -85,15 +85,28 @@ def clean_df_crypto(df, volume_thresh=1000000):
 
     return df
 
-def replace_df_zeros(df):
-    ''' This function takes in a dataframe of price information, finds all zero values
-        for the 'volume' column and replaces them with the mean volume of the dataset.
+def Replace(x, mean, std):
+    ''' This is a lambda function to be used with replace_low_vol '''
+    if x < (mean - (2 * std)):
+        return mean
+    else:
+        return x
+
+def replace_low_vol(df):
+    ''' This function takes in a dataframe of price information, finds all values
+        for the 'volume' column that are more than 2 stds below the mean and replaces
+        them with the mean volume of the dataset.
 
         Args: df - dataframe of price information
 
         Return: df - cleaned dataframe with no zero volume entries
     '''
-    df['volume'].replace(0.0, df['volume'].mean(), inplace=True)
+    # Calculate mean and std for volumn column of dataframe
+    mean_vol = df.volume.mean()
+    std_vol = df.volume.std()
+
+    # Apply lambda function to transform poor data
+    df['volume'] = df['volume'].apply(lambda x: Replace(x, mean_vol, std_vol))
 
     return df
 
@@ -151,10 +164,10 @@ def generate_df_dict(product_dict, api_key=None):
         if info[0] == 1:
             df = create_df_crypto(product)
             df = clean_df_crypto(df)
-            df = replace_df_zeros(df)
+            df = replace_low_vol(df)
         if info[0] == 2:
             df = create_df_quandl(product, api_key)
-            df = replace_df_zeros(df)
+            df = replace_low_vol(df)
 
         df_dict[product] = df
 

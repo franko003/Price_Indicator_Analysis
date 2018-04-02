@@ -66,3 +66,4 @@ After examining the initial data I found there are a few different key areas of 
 
 1. **Different Timeframes**
 2. **Futures contract consideration, rather than continuous**
+3. **Better check for outliers, not just 3 stds from overall mean**
