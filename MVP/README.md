@@ -121,8 +121,30 @@ And this is the breakdown for **Bitcoin**
 
 ![Bitcoin Signal Count](images/bitcoin_trade_counts.png)
 
+## Initial Exploration
 
-## Further research
+Now that we have all the data and indicators that we need, it is time to explore the real question at hand, do any of these indicators do a good job of predicting future prices.
+
+In order to do this we will create a plot of the future returns of a product after each signal is triggered and see if the distribution is consistently around zero (no predictive value), above (positive predictive value), or below (negative predictive value).  Keep in mind that if we find an indicator that consistently predicts negative returns all we have to do is change the entry direction in order to create a winning strategy.
+
+Here is an example with **Crude Oil** using the **50day Moving Average Long** strategy,looking at the **1day returns**.
+
+![Crude Oil 50day MA Long 1day Returns](images/crude_50ma_long_1day_returns.png)
+
+And here looking at the **50day Moving Average Short** strategy, with **1day returns**.
+
+![Crude Oil 50day MA Short 1day Returns](images/crude_50ma_short_1day_returns.png)
+
+So this looks like a good start.  With any trading strategy it is good to see positive results in each direction of trade.  It is a very simple way to show this is possibly a robust strategy, not one that finds winners in one direction but would just give back those gains on signals in the other direction.  
+
+From here we will create a function to analyze this **signal-return** relationship for each signal, and for each timeframe of returns.  Then we will take a look at all the relationships to form hypotheses to test about what strategies are showing good predictive value.
+
+## Initial Research Findings
+
+
+
+
+## Further Research and Analysis
 
 1. **Different Timeframes**
 2. **Futures contract consideration, rather than continuous**
