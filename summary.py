@@ -61,7 +61,7 @@ def indicator_summary(df):
 
    # Get strategy names and counts in lists
    signal_names = [signal for signal in df_signals.columns]
-   signal_counts = [df_signals[signal].value_counts()[1] for signal in df.signals.columns]
+   signal_counts = [df_signals[signal].value_counts()[1] for signal in df_signals.columns]
 
    # Plot histogram of number of trades for different signals
    plt.figure(figsize=(10,7))

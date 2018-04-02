@@ -126,7 +126,7 @@ def check_outliers(df):
     locs_gt_3std = [cpy.index.get_loc(x) for x in cpy.index[cpy['stds_from_mean'] > 3.0]]
 
     # Plot the price data, highlighting the outliers
-    plt.figure(figsize=(15,10))
+    plt.figure(figsize=(14,7))
     plt.plot(cpy.index, cpy.close, linestyle='solid', markevery=locs_gt_3std,
                 marker='o', markerfacecolor='r', label='Outliers')
 
