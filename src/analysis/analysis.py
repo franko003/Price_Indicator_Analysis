@@ -94,14 +94,31 @@ def return_stats(product, df, signal, timeframe=1):
 
     return [product, signal, timeframe, signal_count, signals_per_day, mean_pc, std_pc, min_pc, max_pc, q25_pc, q75_pc]
 
-''' quick script to create the last dataframe.  Need to put into a function '''
-# Set variable to keep track of index in dataframe
-i = 0
+def create_returns_df(prod_dict, signal_list, timeframe_list=[1, 5, 10, 20]):
+    ''' This function takes in a dict of product symbols mapped to dataframes of price and
+        indicator information, a list of signals, and a list of timeframes.  It generates
+        a new dataframe of products, signals, timeframes, and return statistics.
 
-# Iterate through each product, for each signal, for each timeframe
-for prod, df in prod_dict.items():
-    for signal in signal_list:
-        for timeframe in timeframe_list:
-            # Insert row of data into dataframe
-            returns_df.loc[i] = return_stats(prod, df, signal, timeframe)
-            i += 1
+        Args: prod_dict - dict of product symbols mapped to dataframes of price info
+              signal_list - list of strings of signal names
+              timeframe_list - list of ints that represent timeframes for returns
+
+        Return: returns_df - dataframe of products, signals, timeframes and return stats
+    '''
+    # Create empty dataframe in order to insert data
+    returns_df = pd.DataFrame(columns=['product', 'signal', 'timeframe',
+                              'signal_count', 'signals_per_day', 'ave_return', 'std_return',
+                              'min_return', 'max_return', 'q25_return', 'q75_return'])
+
+    # Set variable to keep track of index in dataframe
+    i = 0
+
+    # Iterate through each product, for each signal, for each timeframe
+    for prod, df in prod_dict.items():
+        for signal in signal_list:
+            for timeframe in timeframe_list:
+                # Insert row of data into dataframe
+                returns_df.loc[i] = return_stats(prod, df, signal, timeframe)
+                i += 1
+
+    return returns_df
