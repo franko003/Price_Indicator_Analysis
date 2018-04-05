@@ -8,7 +8,7 @@ This analysis is being done to explore whether or not certain technical analysis
 
 ## Data Collection
 
-In order to get data from more traditional products and newer assets, I will be extracting data from both Quandl and Cryptocompare.  Each has its own API that is freely available, Quandl even has a package to be used specifically with Python.  For this project I am going to focus on historical daily price data, including the basis open, high, low, and close price as well as volume.  The end goal for collection is to have a database schema setup with three tables, one for Data source, one for Product names, and one for Price Data.  These tables will be linked by keys and include the relevant price and volume information mentioned above.
+In order to get data from more traditional products and newer assets, I will be extracting data from both Quandl and Cryptocompare.  Each has its own API that is freely available, Quandl even has a package to be used specifically with Python.  For this project I am going to focus on historical daily price data, including the basic open, high, low, and close price as well as volume.  The end goal for collection is to have a database schema setup with three tables, one for Data source, one for Symbol names, and one for Daily_Prices data.  These tables will be linked by keys and include the relevant price and volume information mentioned above.
 
 From Quandl, I want to look at data from highly traded products across different asset classes.  My breakdown follows...
 
@@ -61,7 +61,7 @@ First of all, regarding the cryptocurrency data, due to the fact that each asset
 
 To clean this up and also take a look at data from times where there was enough liquidity to actually trade, I decided to pick a start date for each set of cryptocurrency to be the first day that trading volume reached **$1,000,000 USD**.
 
-The next thing I noticed that needed to be addressed was certain days where volume was unlikely to be reported correctly.  There were alot of zero and low number values, considering the goal was to only look at highly liquid products.
+The next thing I noticed that needed to be addressed was a high amount of days with zero or less than 5,000 volume values.  The reason that I picked these specific products was due to their high liquidity so these values seemed off.  
 
 This is likely due to poor data or something to do with the way they create the continuous contract, by taking weighting of the two current front months.  For this project **volume** is only going to be used in the case of a break-out strategy where we need to find days that are **200% of the rolling average volume**.  Thus, for our purposes taking these likely incorrect data and simply replacing them with the mean will suffice.
 
@@ -143,19 +143,33 @@ In order to look at all the relationships I wrote a function to take in symbol, 
 
 ## Initial Research Findings
 
-1. The distribution of **ave_return** for all combinations of strategies is not normal, but does have a positive mean and is skewed to the right, indicating that we may have found strategies with good predictive value.
+ * The distribution of **ave_return** for all combinations of strategies is not normal, but does have a positive mean and is skewed to the right, indicating that we may have found strategies with good predictive value.
 
-2. **Cryptocurrencies** were clearly much more volatile than other products, taking up all of the top 100 strategies based on return, and most of the bottom 100.
+![Distplot Ave Return](images/distplot_ave_return.png)
 
-3. The **Bollinger Band Signal** performed the worst by far, and it was the only **mean-reversion** strategy tested.
+ * **Cryptocurrencies** were clearly much more volatile than other products, taking up all of the top 100 strategies based on return, and most of the bottom 100.
 
-4. As far as **Break-out Strategies**, the **Range-Breakout** outperformed the **Volume-Breakout**, based on the fact that it showed positive results in both trade directions.
+![Countplot Top100](images/countplot_top100.png)
 
-5. **Trend-following Strategies** using simple moving averages consistently performed well across the board, no matter what timeframe we were looking at.
+![Countplot Bottom100](images/countplot_bottom100.png)
+
+ * The **Bollinger Band Signal** performed the worst by far, and it was the only **mean-reversion** strategy tested.
+
+![Stripplot Signal](images/stripplot_signal.png)
+
+ * As far as **Break-out Strategies**, the **Range-Breakout** outperformed the **Volume-Breakout**, based on the fact that it showed positive results in both trade directions.
+
+![Heatmap](images/heatmap.png)
+
+ * **Trend-following Strategies** using simple moving averages consistently performed well across the board, no matter what timeframe we were looking at.
 
 
 ## Further Research and Analysis
 
-1. **Different Timeframes**
-2. **Futures contract consideration, rather than continuous**
-3. **Better check for outliers, not just 3 stds from overall mean**
+1. Filter the data again to include only those combinations where there is a large enough sample size of data.
+
+2. Introduce **expected value** of trade, rather than **ave_return**.
+
+3. Find a robust strategy to recommend trading across the board.
+
+4. Find a basket of strategies that could be traded as part of a portfolio to improve diversification.

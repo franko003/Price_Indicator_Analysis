@@ -24,3 +24,8 @@ mind when moving to the next level of implementation.
 would need to be functionality for updating data and making decisions based on what is happening right now. Also
 this type of analysis would need to continue to run in order to determine if the best indicators are continuing to
 work, or if there are new indicators that are working better given current situations.
+
+1. **Different Timeframes**
+2. **Futures contract consideration, rather than continuous**
+3. **Better check for outliers, not just 3 stds from overall mean**
+4. **Better testing and cleaning of data before deploying capital**
