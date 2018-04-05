@@ -143,7 +143,15 @@ In order to look at all the relationships I wrote a function to take in symbol, 
 
 ## Initial Research Findings
 
+1. The distribution of **ave_return** for all combinations of strategies is not normal, but does have a positive mean and is skewed to the right, indicating that we may have found strategies with good predictive value.
 
+2. **Cryptocurrencies** were clearly much more volatile than other products, taking up all of the top 100 strategies based on return, and most of the bottom 100.
+
+3. The **Bollinger Band Signal** performed the worst by far, and it was the only **mean-reversion** strategy tested.
+
+4. As far as **Break-out Strategies**, the **Range-Breakout** outperformed the **Volume-Breakout**, based on the fact that it showed positive results in both trade directions.
+
+5. **Trend-following Strategies** using simple moving averages consistently performed well across the board, no matter what timeframe we were looking at.
 
 
 ## Further Research and Analysis
