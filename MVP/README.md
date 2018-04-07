@@ -173,8 +173,3 @@ In order to look at all the relationships I wrote a function to take in symbol, 
 3. Find a robust strategy to recommend trading across the board.
 
 4. Find a basket of strategies that could be traded as part of a portfolio to improve diversification.
-
-
-`|______test
-
- |`
