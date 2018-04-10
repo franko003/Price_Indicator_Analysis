@@ -2,6 +2,34 @@
 
 This project is the second for the K2 Data Science program.  In general it is going to encompass gathering current and historical price data for multiple products from different sources, cleaning and manipulating it into desired form, then analyzing it in order to see what conditions and/or indicators have the best predictive ability to future price movements.
 
+# Project Organization
+------------
+
+    |-- README.md         <- The top-level README which serves as a run-through the project
+    │
+    ├── MVP               <- Minimum Viable Product
+    │   |── images        <- Generated figures to be used in reporting
+    |   |__ README.md     <- Run-through of the MVP
+    |   |__ Price_Indicator_Analysis_MVP.ipynb
+    │
+    ├── notebooks          <- Jupyter notebooks used to create scripts, perform data cleaning,
+    |                         manipulation, visualizations, etc
+    │
+    └── src                <- Source code for use in this project
+        ├── __init__.py    <- Makes src a Python module
+        │
+        ├── data           <- Scripts to download or generate data
+        │   └── make_dataset.py
+        │
+        ├── features       <- Scripts to manipulate data into desired form for analysis
+        │   └── build_features.py
+        │
+        ├── analysis         <- Scripts to summarize and analyze cleaned data
+            |
+            ├── predict_model.py
+            └── train_model.py
+--------
+
 ## Data
 
 The data being used here is all historical data.  It has been pulled from a few different sources, in order to find
