@@ -5,26 +5,26 @@ This project is the second for the K2 Data Science program.  In general it is go
 # Project Organization
 ------------
 
-    |-- README.md         <- The top-level README which serves as a run-through the project
+    |-- README.md           <- The top-level README which serves as a run-through the project
     │
-    ├── MVP               <- Minimum Viable Product
-    │   |── images        <- Generated figures to be used in reporting
-    |   |__ README.md     <- Run-through of the MVP
+    ├── MVP                 <- Minimum Viable Product
+    │   |── images          <- Generated figures to be used in reporting
+    |   |__ README.md       <- Run-through of the MVP
     |   |__ Price_Indicator_Analysis_MVP.ipynb
     │
-    ├── notebooks          <- Jupyter notebooks used to create scripts, perform data cleaning,
+    ├── notebooks           <- Jupyter notebooks used to create scripts, perform data cleaning,
     |                         manipulation, visualizations, etc
     │
-    └── src                <- Source code for use in this project
-        ├── __init__.py    <- Makes src a Python module
+    └── src                 <- Source code for use in this project
+        ├── __init__.py     <- Makes src a Python module
         │
-        ├── data           <- Scripts to download or generate data
+        ├── data            <- Scripts to download or generate data
         │   └── make_dataset.py
         │
-        ├── features       <- Scripts to manipulate data into desired form for analysis
+        ├── features        <- Scripts to manipulate data into desired form for analysis
         │   └── build_features.py
         │
-        ├── analysis         <- Scripts to summarize and analyze cleaned data
+        ├── analysis        <- Scripts to summarize and analyze cleaned data
             |
             ├── predict_model.py
             └── train_model.py
