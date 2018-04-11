@@ -30,6 +30,10 @@ This project is the second for the K2 Data Science program.  In general it is go
             └── train_model.py
 --------
 
+## Project Workflow
+
+![Project Workflow](figures/price_indicator_workflow.png)
+
 ## Data
 
 The data being used here is all historical data.  It has been pulled from a few different sources, in order to find
