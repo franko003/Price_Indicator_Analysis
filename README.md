@@ -11,6 +11,8 @@ This project is the second for the K2 Data Science program.  In general it is go
     │   |── images          <- Generated figures to be used in reporting
     |   |__ README.md       <- Run-through of the MVP
     |   |__ Price_Indicator_Analysis_MVP.ipynb
+    |
+    |-- figures             <- Collection of figures used in creating the walkthrough
     │
     ├── notebooks           <- Jupyter notebooks used to create scripts, perform data cleaning,
     |                         manipulation, visualizations, etc
@@ -32,7 +34,9 @@ This project is the second for the K2 Data Science program.  In general it is go
 
 ## Project Workflow
 
+
 ![Project Workflow](figures/price_indicator_workflow.png)
+
 
 ## Data
 

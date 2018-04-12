@@ -139,3 +139,15 @@ def add_all_indicators(df):
     df['pct_change_20day'] = df['close'].pct_change(periods=20)
 
     return df
+
+def transform_all_products(prod_dict):
+    ''' This function takes in the dictionary of all product dataframes and applies
+        the add_all_indicators function to each.
+
+        Args: prod_dict - dictionary of name:dataframe key:value pairs for all products
+
+        Return: None - transforms each dataframe with indicators and returns
+    '''
+    # Iterate through all products in the dict and update
+    for prod, df in prod_dict.items():
+        add_all_indicators(df)
