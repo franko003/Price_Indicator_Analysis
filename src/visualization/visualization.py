@@ -69,16 +69,22 @@ def plot_heatmap(df):
 
     plt.show()
 
-def plot_all(df, column='ave_return'):
-    ''' This function takes in a dataframe of price, indicator and return information
-        then generates all the relevant exploratory plots.
+def plot_heatmap_final(df):
+    ''' This function takes in a dataframe of return information and creates a heatmap
+        of ave_yearly_return by product and signal.
 
         Args: df - dataframe of return information
-              column - column of dataframe to plot
 
-        Return: None - creates all plots
+        Return: None - plots the heatmap
     '''
-    # Run all three plots
-    plot_dist_ave_return(df, column)
-    plot_ave_return_by_signal(df)
-    plot_heatmap(df)
+    # Create figure
+    fig, ax = plt.subplots(figsize=(10,7))
+
+    # Manipulate dataframe to get ave_yearly_return by produce and signal combination
+    df1 = df.pivot_table(index='product', columns='signal', values='ave_yearly_return', aggfunc=np.mean)
+
+    # Plot heatmap
+    sns.heatmap(df1, annot=True, fmt=".2%", ax=ax, cbar_kws={'ticks': [0, 5, 10, 15]}, vmin=0, vmax=15)
+    ax.set(title='Ave Yearly Return by Product/Signal Combination')
+
+    plt.show()

@@ -151,4 +151,11 @@ if __name__ == "__main__":
     print('.....Calculating average yearly returns.....')
     years_map = generate_years_map(df_dict)
     df_yearly_return = add_yearly_return(df_combined, years_map)
-    print(df_yearly_return.head())
+    print_top_combinations(df_yearly_return)
+    print('')
+
+    print('.....Heatmap of ave_yearly_return by product/signal combination.....')
+    plot_heatmap_final(df_yearly_return)
+    print('')
+
+    print('.....Program complete.....')
