@@ -175,3 +175,20 @@ def price_summary(df):
     print('The standard deviation was: {0:.2f}'.format(std))
     print('The overall price range was: {0:.2f}, from a low of {l} to a high of {h}'\
         .format(price_range, l=low, h=high))
+
+def print_top_combinations(df, ret='ave_return'):
+    ''' This function takes in a dataframe of return information and a specific type
+        of return, then prints a summary of the top 5 signal/timeframe combinations for
+        each product by that return type.
+
+        Args: df - dataframe to summarize
+              ret - type of return to sort by
+
+        Return: None - prints summary of top 5 combinations for each product in dataframe
+    '''
+    # Iterate over all unique products and print top 5
+    for product in df['product'].unique():
+        print(product)
+        print(df[df['product'] == product].sort_values(by=ret, ascending=False)\
+                .iloc[:5][['signal', 'timeframe', ret, 'signal_count']])
+        print('____________________________________')

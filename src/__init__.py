@@ -146,4 +146,9 @@ if __name__ == "__main__":
 
     print('.....Combining trade strategies.....')
     df_combined = combine_strategies(df_final)
-    print(df_combined.head())
+    print('')
+
+    print('.....Calculating average yearly returns.....')
+    years_map = generate_years_map(df_dict)
+    df_yearly_return = add_yearly_return(df_combined, years_map)
+    print(df_yearly_return.head())

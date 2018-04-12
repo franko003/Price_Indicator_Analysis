@@ -268,3 +268,54 @@ def combine_strategies(df):
     df_combined.columns = ['product', 'signal', 'timeframe', 'ave_return', 'signal_count']
 
     return df_combined
+
+def generate_years_map(df_dict):
+    ''' This function takes in a dictionary of products:dataframes and finds the number of years
+        for each.  It then returns a map of product names to number of years in dataframe.
+
+        Args: df_dict - dict of product names and dataframes
+
+        Return: years_map - dict of product names to number of years in original dataset
+    '''
+    # Initialize years_map
+    years_map = {}
+
+    # Iterate through all products and caluculate number of years (260 trading days), create dict entry
+    for prod in df_dict.keys():
+        years_map[prod] = df_dict[prod].shape[0] / 260
+
+    return years_map
+
+def year_return(row, years_map):
+    ''' This is a helper function that takes in a row of a dataframe as well as a map of product to total
+        number of years in the original dataset.  It will be used to calculate an ave_yearly_return
+        column of the dataframe.
+
+        Args: row - row of dataframe
+              years_map - dict with product:total number of data points, as key:value pair
+              trade_days - total number of trading days per year
+
+        Return: ave_yearly_return - ave_yearly_return of the specfic strategy given total data points
+    '''
+    # Get return per year
+    return_per_dp = row['total_return'] / years_map[row['product']]
+
+    return return_per_dp
+
+def add_yearly_return(df, years_map):
+    ''' This function takes in a dataframe of return information and a map of products to
+        number of years in the dataset, and then adds columns for total_return and ave_yearly_return
+        to the dataframe.
+
+        Args: df - dataframe to modify
+              years_map - dict of product names to number of years in dataset
+
+        Return: df - adds columns to given dataframe
+    '''
+    # Add total_return column to dataframe
+    df['total_return'] = df['ave_return'] * df['signal_count']
+
+    # Add ave_yearly_return column
+    df['ave_yearly_return'] = df.apply(lambda row: year_return(row, years_map), axis=1)
+
+    return df
