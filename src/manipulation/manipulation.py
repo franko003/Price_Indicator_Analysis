@@ -184,3 +184,87 @@ def create_returns_df(prod_dict, signal_list, timeframe_list=[1, 5, 10, 20]):
     returns_df.dropna(inplace=True)
 
     return returns_df
+
+def filter_strategies(df, thresh=150):
+    ''' This function takes in a dataframe of returns and a min trade count and returns
+        a filtered dataframe without the bb strategy and only strategies that reach the
+        threshold for trade count.
+
+        Args: df - dataframe to filter
+              thresh - min number of trades needed to remain in dataframe
+
+        Return: df_final - filtered dataframe
+    '''
+    # Remove all bb strats
+    df_final = df[(df['signal'] != 'bb_long') & (df['signal'] != 'bb_short')]
+
+    # Filter out strategies with trade count below the threshold
+    df_final = df_final[df_final['signal_count'] > 150]
+
+    # Create list of strategies to drop based on not having the other direction reach thresh
+    drops = [('BTC', 'range_bo_long'), ('XLM', 'ma50_short'), ('XLM', 'ma20_short'),
+             ('XMR', 'ma100_long'), ('XMR', 'ma50_long')]
+
+    # Iterate through list and drop rows with those combinations
+    for combo in drops:
+        df_final.drop(df_final[(df_final['product'] == combo[0]) & (df_final['signal'] == combo[1])].index, inplace=True)
+
+    return df_final
+
+def calculate_combined(df, prod, sig, tf, sig_map):
+    ''' This function takes in a dataframe, product, signal, timeframe and signal_map and returns
+        both the combined average return and total signal count for each strategy long/short combination.
+
+        Args: df - the cleaned dataframe of price and return information
+              prod - product name
+              sig - signal name
+              tf - timeframe
+              sig_map - a dict that maps the long strategy to the short strategy
+
+        Return: combined ave return, total signal count
+    '''
+    # Get the individual counts, returns for long and short trades
+    long_count, long_ave_return = df[(df['product'] == prod) & (df['signal'] == sig) &\
+                                     (df['timeframe'] == tf)].iloc[0][['signal_count', 'ave_return']]
+    short_count, short_ave_return = df[(df['product'] == prod) & (df['signal'] == sig_map[sig]) &\
+                                       (df['timeframe'] == tf)].iloc[0][['signal_count', 'ave_return']]
+
+    # Get total number of trades
+    total_count = long_count + short_count
+
+    # Calculate combined ave return
+    combined_ave_return = ((long_count / total_count) * long_ave_return) +\
+                            ((short_count / total_count) * short_ave_return)
+
+    return combined_ave_return, total_count
+
+def combine_strategies(df):
+    ''' This function takes in a dataframe and combines each long/short side of a strategy
+        then returns a dataframe of the resulting information.
+
+        Args: df - dataframe to combine strategies for
+
+        Return: df_combined - dataframe of combined strategies
+    '''
+    # Create a signal map for each strategy pair, list of timeframes and empty list to hold data
+    signal_map = {'range_bo_long': 'range_bo_short',
+                  'ma20_long': 'ma20_short',
+                  'ma50_long': 'ma50_short',
+                  'ma100_long': 'ma100_short'}
+
+    timeframes = [1, 5, 10, 20]
+    combined = []
+
+    # Iterate through each combination and append the information
+    for product in df['product'].unique():
+        for timeframe in timeframes:
+            for signal in signal_map:
+                if signal in list(df[df['product'] == product].signal):
+                    combined_return, combined_count = calculate_combined(df, product, signal, timeframe, signal_map)
+                    combined.append([product, signal[:-5], timeframe, combined_return, combined_count])
+
+    # Put data into a dataframe and name columns appropriately
+    df_combined = pd.DataFrame(combined)
+    df_combined.columns = ['product', 'signal', 'timeframe', 'ave_return', 'signal_count']
+
+    return df_combined

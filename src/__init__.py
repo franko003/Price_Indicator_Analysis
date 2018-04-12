@@ -138,3 +138,12 @@ if __name__ == "__main__":
     print('.....Heatmap of ave_return by product/signal combination.....')
     plot_heatmap(returns_df)
     print('')
+
+    # Filter data and combine strategies
+    print('.....Filtering trade strategies.....')
+    df_final = filter_strategies(returns_df)
+    print('')
+
+    print('.....Combining trade strategies.....')
+    df_combined = combine_strategies(df_final)
+    print(df_combined.head())
