@@ -10,8 +10,9 @@ import os
 
 from data.util import *
 from data.db_setup import *
-from features.indicators import *
+from manipulation.manipulation import *
 from analysis.analysis import *
+from visualization.visualization import *
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -123,5 +124,17 @@ if __name__ == "__main__":
     # Final data transformation to create returns dataframe
     print('.....Final data transformation.....')
     returns_df = create_returns_df(df_dict, signal_list)
-    returns_df.dropna(inplace=True)
+    print('')
+
+    # Data exploration
+    print('.....Distribution plot of all ave_returns.....')
+    plot_dist_ave_return(returns_df)
+    print('')
+
+    print('.....Strip plot of ave_return by signal.....')
+    plot_ave_return_by_signal(returns_df)
+    print('')
+
+    print('.....Heatmap of ave_return by product/signal combination.....')
+    plot_heatmap(returns_df)
     print('')

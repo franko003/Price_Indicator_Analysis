@@ -8,7 +8,7 @@ This project is the second for the K2 Data Science program.  In general it is go
     |-- README.md           <- The top-level README which serves as a run-through the project
     │
     ├── MVP                 <- Minimum Viable Product
-    │   |── images          <- Generated figures to be used in reporting
+    │   |__ images          <- Generated figures to be used in reporting
     |   |__ README.md       <- Run-through of the MVP
     |   |__ Price_Indicator_Analysis_MVP.ipynb
     |
@@ -21,15 +21,22 @@ This project is the second for the K2 Data Science program.  In general it is go
         ├── __init__.py     <- Makes src a Python module
         │
         ├── data            <- Scripts to download or generate data
-        │   └── make_dataset.py
+        │   |── db_setup.py
+        |   |__ util.py
         │
-        ├── features        <- Scripts to manipulate data into desired form for analysis
-        │   └── build_features.py
+        ├── manipulation    <- Scripts to manipulate data into desired form for analysis
+        │   └── manipulation.py
         │
         ├── analysis        <- Scripts to summarize and analyze cleaned data
+        |   |
+        |   ├__ analysis.py
+        |  
+        |
+        |__ visualization   <- Scripts to visualize the exploratory analysis
             |
-            ├── predict_model.py
-            └── train_model.py
+            |__ visualization.py
+
+
 --------
 
 ## Project Workflow
