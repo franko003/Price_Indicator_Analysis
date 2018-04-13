@@ -2,6 +2,10 @@
 
 Analysis of common technical analysis indicators on daily price data for different products.  This project is the second for the K2 Data Science program.  
 
+# Useful Contents
+
+This README is a full walkthrough of the project.  To go through a more detailed walkthrough with code examples check out `Price_Indicator_Analysis_Final_Walkthrough.ipynb` in the `notebooks` folder.  To run this from the command line on your own machine, clone the repo, navigate to the `src` file folder and run `python __init__.py`.  The prompts will take you through the entire analysis with options to print certain summaries and plots.
+
 # Project Organization
 ------------
 
@@ -10,7 +14,7 @@ Analysis of common technical analysis indicators on daily price data for differe
     ├── MVP                 <- Minimum Viable Product
     │   |__ images          <- Generated figures to be used in reporting
     |   |__ README.md       <- Run-through of the MVP
-    |   |__ Price_Indicator_Analysis_MVP.ipynb
+    |   
     |
     |-- figures             <- Collection of figures used in creating the walkthrough
     │
