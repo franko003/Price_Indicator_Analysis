@@ -1,6 +1,6 @@
 # Price_Indicator_Analysis
 
-This project is the second for the K2 Data Science program.  In general it is going to encompass gathering current and historical price data for multiple products from different sources, cleaning and manipulating it into desired form, then analyzing it in order to see what conditions and/or indicators have the best predictive ability to future price movements.
+Analysis of common technical analysis indicators on daily price data for different products.  This project is the second for the K2 Data Science program.  
 
 # Project Organization
 ------------
@@ -39,20 +39,64 @@ This project is the second for the K2 Data Science program.  In general it is go
 
 --------
 
-## Project Workflow
+# Project Workflow
 
 
 ![Project Workflow](figures/price_indicator_workflow.png)
 
 
-## Data
+# Project Walkthrough
 
-The data being used here is all historical data.  It has been pulled from a few different sources, in order to find
-robust indicators for future price movements have significance regardless of underlying product.
+## Goals
+
+This analysis is being done to explore whether or not certain technical analysis indicators can consistently predict future price movements in various actively traded products.  Three common trading strategies include trend-following, break-out, and mean-reversion.  This project will explore indicators in each category and determine their individual predictive value over different timeframes.
+
+## Data Collection
+
+In order to get data from more traditional products and newer assets, I will be extracting data from both Quandl and Cryptocompare.  Each has its own API that is freely available, Quandl even has a package to be used specifically with Python.  For this project I am going to focus on historical daily price data, including the basic open, high, low, and close price as well as volume.  The end goal for collection is to have a database schema setup with three tables, one for Data, one for Symbols, and one for Daily_Prices data.  These tables will be linked by keys and include the relevant price and volume information mentioned above.
 
 For continuous futures data, [Quandl](https://www.quandl.com/collections/futures)
+
 For cryptocurrency data, [Cryptocompare](https://www.cryptocompare.com/)
-For stock data, [Quantopian](https://www.quantopian.com/data?type=free)
+
+Here is a list of all products broken down by sector, with accompanying symbols used in analysis:
+
+* **Grains**
+     * Corn - C
+     * Wheat - W
+     * Soybeans - S
+* **Energy**
+     * Crude Oil - CL
+     * Heating Oil - HO
+     * Natural Gas - NG
+* **Forex**
+     * Australian Dollar - AD
+     * Canadien Dollar - CD
+     * Euro - EC
+     * Japanese Yen - JY
+     * British Pound - BP
+* **Treasuries**
+     * 30-yr Bond - US
+* **Metals**
+     * Gold - GC
+     * Silver - SI
+* **Index**
+     * E-mini S&P 500 - ES
+* **Cryptocurrencies**
+     * Bitcoin - BTC
+     * Ethereum - ETH
+     * Ripple- XRP
+     * BitcoinCash - BCH
+     * Litecoin - LTC
+     * Cardano - ADA
+     * Neo - NEO
+     * Stellar - XLM
+     * EOS - EOS
+     * Monero - XMR
+
+**SQL Database Schema**
+
+![SQL Database Schema](figures/sql_db_schema.png)
 
 ## Improvements
 
